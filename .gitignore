@@ -104,3 +104,6 @@ dist
 
 # Database
 db/
+
+# Keys
+keys.json
