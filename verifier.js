@@ -8,7 +8,14 @@ start({
   "/discover/1.0.0": () => fromString(process.env.SERVICE_NAME),
   "/verify/1.0.0": async (source) => {
     source = toString(source);
-    return fromString("TODO");
+    source = JSON.parse(source);
+    source.timestamp = new Date().getTime();
+    return fromString(
+      JSON.stringify({
+        source,
+        signature: "TODO",
+      })
+    );
   },
 })
   .then()
