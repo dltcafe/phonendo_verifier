@@ -1,0 +1,25 @@
+{
+  "name": "phonendo_verifier",
+  "version": "1.0.0",
+  "description": "Phonendo Verifier",
+  "type": "module",
+  "main": "verifier.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node verifier.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@chainsafe/libp2p-noise": "^6.2.0",
+    "@libp2p/mdns": "^1.0.7",
+    "@libp2p/mplex": "^1.1.0",
+    "@libp2p/tcp": "^1.0.11",
+    "dotenv": "^16.0.1",
+    "it-map": "^1.0.6",
+    "it-pipe": "^2.0.3",
+    "level": "^8.0.0",
+    "libp2p": "^0.37.1",
+    "uint8arrays": "^3.0.0"
+  }
+}
