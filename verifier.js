@@ -4,8 +4,9 @@ import { start, stop } from "./libp2p-node.js";
 import { toString } from "uint8arrays/to-string";
 import { fromString } from "uint8arrays/from-string";
 
-const { createSign, createPrivateKey, createPublicKey, generateKeyPairSync } =
-  await import("node:crypto");
+const { createSign, createPrivateKey, generateKeyPairSync } = await import(
+  "node:crypto"
+);
 
 /* Dummy signature bcs crypto is broken and this initialize something... */
 let { privateKey } = generateKeyPairSync("ec", {
@@ -31,19 +32,18 @@ start({
   "/verify/1.0.0": async (source) => {
     source = toString(source);
     source = JSON.parse(source);
-    source.timestamp = new Date().getTime();
-
-    const sign = createSign("SHA256");
-    sign.write(JSON.stringify(source));
-    sign.end();
-    const signature = sign.sign(privateKey, "hex");
-
-    return fromString(
-      JSON.stringify({
-        source,
-        signature,
-      })
-    );
+    let time = new Date().getTime();
+    let signature = "";
+    if (
+      time > source.timestamp &&
+      source.timestamp + process.env.EXPIRY_THRESHOLD_IN_SECONDS * 1000 >= time
+    ) {
+      const sign = createSign("SHA256");
+      sign.write(JSON.stringify(source));
+      sign.end();
+      signature = sign.sign(privateKey, "hex");
+    }
+    return fromString(JSON.stringify({ source, signature }));
   },
 })
   .then()
